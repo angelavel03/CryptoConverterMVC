@@ -1,0 +1,80 @@
+﻿
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/css/converter.css"/>
+    <title>Converter</title>
+</head>
+<body>
+
+    <div class="crypto-items">
+        <div class="crypto-item">
+            <img src="~/btc.png" />
+            <p>Bitcoin</p>
+        </div>
+        <div class="crypto-item">
+            <img src="~/ether.png" />
+            <p>Ethereum</p>
+        </div>
+        <div class="crypto-item">
+            <img src="~/xlm.png" />
+            <p>Stellar</p>
+        </div>
+        <div class="crypto-item">
+            <img src="~/cardano.png" />
+            <p>Cardano</p>
+        </div>
+        <div class="crypto-item">
+            <img src="~/Dogecoin_Logo.png" />
+            <p>Doge Coin</p>
+        </div>
+        <div class="crypto-item">
+             <img src="~/sol.png" />
+             <p>Sollana</p>
+        </div>
+        <div class="crypto-item">
+             <img src="~/shib.png" />
+             <p>Shib</p>
+        </div>
+    </div>
+
+        <br>
+        @Html.DropDownList("Currencies", @ViewBag.currencies as List<SelectListItem>, "Select",
+        new { @class = "form-control", @id = "myId" })
+        <br>
+
+        <div class="result"> 
+             <input type="button" class="convert-btn" id="btnGet" value="Convert"/>
+             <input type="button" class="reset-btn" id="btnReset" value="Reset"/>
+             <input type="text" class="form-control w-25 mx-3" id="howMuch" value="" placeholder="Enter the amount..."/>
+             <input type="text" class="form-control w-25 mx-3" id="resultConverter" value="" />
+        </div>
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#btnGet").click(function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "/CryptoConverter/convert?currency=" + $('#myId').val(),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            $("#resultConverter").val(response * ($("#howMuch").val()) + "$");
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+        <script src="~/js/JavaScript.js"></script>
+</body>
+</html>
